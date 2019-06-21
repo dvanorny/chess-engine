@@ -6,7 +6,12 @@ namespace chess_engine
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome to chess-engine!");
+            Console.WriteLine("Type 0=white or 1=black:");
+            var playerColor = Console.ReadLine();
+
+            Console.WriteLine("Press enter to end...");
+            Console.ReadLine();
         }
     }
 }

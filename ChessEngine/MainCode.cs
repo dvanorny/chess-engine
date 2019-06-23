@@ -11,10 +11,6 @@ namespace ChessEngine
             double evaluation = 0;
             int whiteBishopCount = 0;
             int blackBishopCount = 0;
-            int[] whitePawnFiles = new int[8];
-            int[] blackPawnFiles = new int[8];
-            int[] dummyArray = new int[8];
-            int dummyVar = 0;
 
             for (int i = 0; i < 8; i++)
             {
@@ -36,27 +32,6 @@ namespace ChessEngine
                             if (square.Color == Color.White) { whiteBishopCount++; }
                             else if (square.Color == Color.Black) { blackBishopCount++; }
                         }
-                        if (square.Name == Piece.Pawn)
-                        {
-                            if (square.Color == Color.White)
-                            {
-                                int index = 8;
-                                for (var l = 0; l < 8; l++)
-                                {
-                                    if (whitePawnFiles[l] == 0) { index--; }
-                                }
-                                whitePawnFiles[index] = i + 1;
-                            }
-                            else if (square.Color == Color.Black)
-                            {
-                                int index = 8;
-                                for (var l = 0; l < 8; l++)
-                                {
-                                    if (blackPawnFiles[l] == 0) { index--; }
-                                }
-                                blackPawnFiles[index] = i + 1;
-                            }
-                        }
                     }
                 }
             }
@@ -65,30 +40,12 @@ namespace ChessEngine
             if (checkForExtras)
             {
                 //do fun stuff !!!!
-            }
 
-            //extras
-            if (whiteBishopCount == 2) { evaluation += 0.5; }
-            if (blackBishopCount == 2) { evaluation -= 0.5; }
-            for (var k = 0; k < 8; k++)
-            {
-                dummyArray = whitePawnFiles;
-                dummyArray[k] = 0;
-                dummyVar = whitePawnFiles[k];
-                for (var i = 0; i < dummyArray.Length; i++) { Console.WriteLine(dummyArray[i]); }
-                Console.WriteLine(Array.Exists(dummyArray, element => element == dummyVar));
-                if (Array.Exists(dummyArray, element => element == dummyVar))
-                {
-                    evaluation -= 0.3;
-                }
 
-                dummyArray = blackPawnFiles;
-                dummyArray[k] = 0;
-                dummyVar = blackPawnFiles[k];
-                if (Array.Exists(dummyArray, element => element == dummyVar))
-                {
-                    evaluation += 0.3;
-                }
+                //extras
+                if (whiteBishopCount == 2) { evaluation += 0.5; }
+                if (blackBishopCount == 2) { evaluation -= 0.5; }
+                evaluation += CheckForDoubledPawns(board);
             }
 
             return evaluation;
@@ -103,13 +60,16 @@ namespace ChessEngine
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (board[i, j].Name == Piece.Pawn && board[i, j].Color == Color.White)
+                    if (board[i, j] != null)
                     {
-                        whitePawns.Add(i);
-                    }
-                    else if (board[i, j].Name == Piece.Pawn && board[i, j].Color == Color.Black)
-                    {
-                        blackPawns.Add(i);
+                        if (board[i, j].Name == Piece.Pawn && board[i, j].Color == Color.White)
+                        {
+                            whitePawns.Add(i);
+                        }
+                        else if (board[i, j].Name == Piece.Pawn && board[i, j].Color == Color.Black)
+                        {
+                            blackPawns.Add(i);
+                        }
                     }
                 }
             }
@@ -118,11 +78,14 @@ namespace ChessEngine
 
             for (int i = 0; i < 8; i++)
             {
-                
-                if (whitePawns.Where(x => x == i).Count() > 1)
-                    score -= 0.3;
-                if (blackPawns.Where(x => x == i).Count() > 1)
-                    score += 0.3;
+                if (whitePawns.Where(x => x == i).Count() > -1)
+                {
+                    score -= (whitePawns.Where(x => x == i).Count() - 1) * 0.33;
+                }
+                if(blackPawns.Where(x => x == i).Count() > -1) {
+                    score += (blackPawns.Where(x => x == i).Count() - 1) * 0.33;
+                }
+
             }
 
             return score;

@@ -78,11 +78,11 @@ namespace ChessEngine
 
             for (int i = 0; i < 8; i++)
             {
-                if (whitePawns.Where(x => x == i).Count() > -1)
+                if (whitePawns.Where(x => x == i).Count() > 0)
                 {
                     score -= (whitePawns.Where(x => x == i).Count() - 1) * 0.33;
                 }
-                if(blackPawns.Where(x => x == i).Count() > -1) {
+                if(blackPawns.Where(x => x == i).Count() > 0) {
                     score += (blackPawns.Where(x => x == i).Count() - 1) * 0.33;
                 }
 

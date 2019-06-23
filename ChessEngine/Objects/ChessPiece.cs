@@ -1,7 +1,9 @@
 ﻿
+using System.Collections;
+
 namespace ChessEngine
 {
-    public class ChessPiece
+    public class ChessPiece 
     {
         public ChessPiece(Piece name, Color color)
         {
@@ -23,5 +25,6 @@ namespace ChessEngine
             return 0;
 
         }
+
     }
 }

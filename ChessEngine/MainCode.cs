@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChessEngine
 {
     public class MainCode
     {
-        public double EvaluatePosition(ChessPiece[,] board)
+        public double EvaluatePosition(ChessPiece[,] board, bool checkForExtras = true)
         {
             double evaluation = 0;
             int whiteBishopCount = 0;
@@ -34,7 +36,7 @@ namespace ChessEngine
                             if (square.Color == Color.White) { whiteBishopCount++; }
                             else if (square.Color == Color.Black) { blackBishopCount++; }
                         }
-                        if ((int)square.Name == 1)
+                        if (square.Name == Piece.Pawn)
                         {
                             if (square.Color == Color.White)
                             {
@@ -43,7 +45,7 @@ namespace ChessEngine
                                 {
                                     if (whitePawnFiles[l] == 0) { index--; }
                                 }
-                                whitePawnFiles[index] = i;
+                                whitePawnFiles[index] = i + 1;
                             }
                             else if (square.Color == Color.Black)
                             {
@@ -52,11 +54,17 @@ namespace ChessEngine
                                 {
                                     if (blackPawnFiles[l] == 0) { index--; }
                                 }
-                                blackPawnFiles[index] = i;
+                                blackPawnFiles[index] = i + 1;
                             }
                         }
                     }
                 }
+            }
+
+            //call extra functions
+            if (checkForExtras)
+            {
+                //do fun stuff !!!!
             }
 
             //extras
@@ -86,6 +94,39 @@ namespace ChessEngine
             return evaluation;
         }
 
+        public double CheckForDoubledPawns(ChessPiece[,] board)
+        {
+            var whitePawns = new List<int>();
+            var blackPawns = new List<int>();
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j].Name == Piece.Pawn && board[i, j].Color == Color.White)
+                    {
+                        whitePawns.Add(i);
+                    }
+                    else if (board[i, j].Name == Piece.Pawn && board[i, j].Color == Color.Black)
+                    {
+                        blackPawns.Add(i);
+                    }
+                }
+            }
+
+            double score = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+                
+                if (whitePawns.Where(x => x == i).Count() > 1)
+                    score -= 0.3;
+                if (blackPawns.Where(x => x == i).Count() > 1)
+                    score += 0.3;
+            }
+
+            return score;
+        }
 
         public ChessPiece[,] SetUpBoard()
         {

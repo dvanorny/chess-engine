@@ -1,16 +1,17 @@
 ﻿using System;
 
-namespace chess_engine
+namespace ChessEngine
 {
     class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to chess-engine!");
-            Console.WriteLine("Type 0=white or 1=black:");
-            var playerColor = Console.ReadLine();
 
-            Console.WriteLine("Press enter to end...");
+            var code = new MainCode();
+            var board = code.SetUpBoard();
+            Console.WriteLine(code.EvaluatePosition(board));
+
             Console.ReadLine();
         }
     }

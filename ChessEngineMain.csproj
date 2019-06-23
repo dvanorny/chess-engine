@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>chess_engine</RootNamespace>
+    <RootNamespace>ChessEngine</RootNamespace>
   </PropertyGroup>
 
 </Project>

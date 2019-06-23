@@ -4,7 +4,6 @@ namespace ChessEngine
 {
     public class MainCode
     {
-
         public double EvaluatePosition(ChessPiece[,] board)
         {
             double evaluation = 0;

@@ -1,6 +1,4 @@
 ﻿
-using System.Collections;
-
 namespace ChessEngine
 {
     public class ChessPiece 

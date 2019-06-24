@@ -8,9 +8,10 @@ namespace ChessEngine
         {
             Console.WriteLine("Welcome to chess-engine!");
 
-            var code = new MainCode();
-            var board = code.SetUpBoard();
-            Console.WriteLine(code.EvaluatePosition(board));
+            var game = new Game();
+
+            var code = new Evaluator();
+            Console.WriteLine(code.EvaluatePosition(game));
 
             Console.ReadLine();
         }

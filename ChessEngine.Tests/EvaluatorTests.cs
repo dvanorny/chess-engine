@@ -5,26 +5,27 @@ namespace ChessEngine.Tests
     [TestClass]
     public class EvaluatorTests
     {
-        MainCode code;
+        Evaluator eval;
+        Game game;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            code = new MainCode();
+            game = new Game();
+            eval = new Evaluator();
         }
 
         [TestMethod]
         public void Test_start_of_game()
         {
-            var board = code.SetUpBoard();
-            var currentScore = code.EvaluatePosition(board);
+            var currentScore = eval.EvaluatePosition(game);
             Assert.AreEqual(0, currentScore);
         }
 
         [TestMethod]
         public void Test_score_with_endgame_example()
         {
-            var board = new ChessPiece[8, 8];
+            var board = game.ChessBoard;
 
             //Following is taken from move 23 in game: https://www.chess.com/live/game/3804992877
 
@@ -44,52 +45,52 @@ namespace ChessEngine.Tests
             board[3, 2] = new ChessPiece(Piece.Pawn, Color.White);
             board[4, 5] = new ChessPiece(Piece.Bishop, Color.White);
 
-            Assert.AreEqual(-1.5, code.EvaluatePosition(board));
+            Assert.AreEqual(-1.5, eval.EvaluatePosition(game));
         }
 
         [TestMethod]
         public void Test_scores_with_removal_of_pieces()
         {
-            var board = code.SetUpBoard();
+            var board = game.ChessBoard;
 
             board[0, 0] = null;
-            Assert.AreEqual(-5, code.EvaluatePosition(board), "White Rook");
+            Assert.AreEqual(-5, eval.EvaluatePosition(game), "White Rook");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[0, 7] = null;
-            Assert.AreEqual(5, code.EvaluatePosition(board), "Black Rook");
+            Assert.AreEqual(5, eval.EvaluatePosition(game), "Black Rook");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[0, 1] = null;
-            Assert.AreEqual(-1, code.EvaluatePosition(board), "White Pawn");
+            Assert.AreEqual(-1, eval.EvaluatePosition(game), "White Pawn");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[0, 6] = null;
-            Assert.AreEqual(1, code.EvaluatePosition(board), "Black Pawn");
+            Assert.AreEqual(1, eval.EvaluatePosition(game), "Black Pawn");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[2, 0] = null;
-            Assert.AreEqual(-3.5, code.EvaluatePosition(board), "White Bishop");
+            Assert.AreEqual(-3.5, eval.EvaluatePosition(game), "White Bishop");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[2, 7] = null;
-            Assert.AreEqual(3.5, code.EvaluatePosition(board), "Black Bishop");
+            Assert.AreEqual(3.5, eval.EvaluatePosition(game), "Black Bishop");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[1, 0] = null;
-            Assert.AreEqual(-3, code.EvaluatePosition(board), "White Knight");
+            Assert.AreEqual(-3, eval.EvaluatePosition(game), "White Knight");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[1, 7] = null;
-            Assert.AreEqual(3, code.EvaluatePosition(board), "Black Knight");
+            Assert.AreEqual(3, eval.EvaluatePosition(game), "Black Knight");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[3, 0] = null;
-            Assert.AreEqual(-9, code.EvaluatePosition(board), "White Queen");
+            Assert.AreEqual(-9, eval.EvaluatePosition(game), "White Queen");
 
-            board = code.SetUpBoard();
+            game.ResetBoard();
             board[3, 7] = null;
-            Assert.AreEqual(9, code.EvaluatePosition(board), "Black Queen");
+            Assert.AreEqual(9, eval.EvaluatePosition(game), "Black Queen");
         }
     }
 }

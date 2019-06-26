@@ -34,8 +34,8 @@ namespace ChessEngine
                     {
                         var number = Convert.ToInt16(c);
 
-                        //If a number exits in a FEN string then it indicates a series of spaces where no piece exists
-                        //So we are going to increment our counter that number of spaces so the next time through this foreach loop it
+                        //If any number (1-8) exists in a FEN string then it indicates a series of board spaces where no piece exists
+                        //   ...so we are going to increment our counter that number of spaces so the next time through this foreach loop it
                         //   will accurately know which file to place a piece on
                         ctr += number;
                     }
